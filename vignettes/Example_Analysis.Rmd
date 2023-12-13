@@ -51,6 +51,9 @@ measles_data_cleaned <- measles_data %>%
   mutate(Year = as.numeric(str_remove(Year, "X")),
          Cases = as.numeric(Cases)) %>%
   filter(!is.na(Cases))
+if (purrr::some(measles_data_cleaned$Cases, is.numeric)) {
+  print("The data is ready for analysis")
+}
 ```
 
 # Example Analysis using Leaflet
@@ -124,5 +127,14 @@ plot3
 
 # Analysis Result
 Over time, there has been a decline in the overall number of measles cases; however, the resurgence of measles occurs periodically every few years. Additionally, there exist significant disparities among countries with regards to the incidence of measles, highlighting substantial inequalities in the prevalence of this infectious disease across the globe.
+
+
+## Functions Used
+leaflet: leaflet(), addTiles, addMarkers, addLegend
+dyplr: group_by, mutate, summarise, mutate_all, left_join, filter
+tidyr: nest, gather
+purrr: pmap, some
+stringr: str_remove
+ggplot2: geom_line, geom_point, geom_smooth, facet_warp
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
