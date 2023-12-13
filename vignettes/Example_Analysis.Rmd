@@ -1,0 +1,127 @@
+---
+title: "Example_Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Example_Analysis}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup, message=FALSE}
+library(leaflet)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(stringr)
+library(purrr)
+library(ggplot2)
+```
+
+
+# Data
+
+This data is acquired from World Health Organization, which is publicly available and can be downloaded [here](https://immunizationdata.who.int/listing.html?topic=&location=).
+
+## Load the data in R
+
+```{r}
+if (!file.exists("data")) {
+  dir.create("data")
+}
+measles_data <- read.csv("/Users/ziying/Desktop/Stats Paradigm/leaflet/vignettes/data/Measle_incidence.csv")
+geo_location <- read.csv("/Users/ziying/Desktop/Stats Paradigm/leaflet/vignettes/data/geo_location.csv")
+```
+
+## Data Wrangling
+
+```{r}
+measles_data <- measles_data %>% mutate_all(na_if, "")
+measles_data <- left_join(measles_data, geo_location, by = c("Country" = "name"))
+measles_data_cleaned <- measles_data %>%
+  gather(key = "Year", value = "Cases", -Country, -Disease, -latitude, -longitude) %>%
+  mutate(Year = as.numeric(str_remove(Year, "X")),
+         Cases = as.numeric(Cases)) %>%
+  filter(!is.na(Cases))
+```
+
+# Example Analysis using Leaflet
+
+```{r}
+map <- leaflet(data = measles_data) %>%
+  addTiles() %>%
+  addMarkers(
+    ~longitude, ~latitude,
+    popup = ~paste("Country: ", Country, "<br>Measles Incidence Rate (2022): ", X2022)
+  ) %>%
+  addLegend("bottomright", colors = "red",labels = "Measles Cases",opacity = 1)
+
+print(map)
+```
+
+
+After the example analysis using leaflet, we can find the general geographical distribution of measles. Now, we can conduct some data analysis based on this insight.
+
+
+# Research Question and Data Analysis
+We want to find how measles cases are changed with time, country and provide a general trend. 
+
+```{r}
+summary_table <- measles_data_cleaned %>%
+  group_by(Year) %>%
+  summarise(Total_Cases = sum(Cases))
+```
+
+
+```{r}
+plot1 <- ggplot(summary_table, aes(x = Year, y = Total_Cases)) +
+  geom_line() +
+  labs(title = "Total Measles Cases 1980-2020",
+       subtitle = "In the whole world",
+       x = "Year",
+       y = "Total Cases")
+plot1
+```
+
+
+```{r}
+plots_by_country <- measles_data_cleaned %>%
+  group_by(Country) %>%
+  nest() %>%
+  mutate(plots = pmap(list(data, Country), ~{
+    ggplot(.x, aes(x = Year, y = Cases)) +
+      geom_line() +
+      labs(title = paste("Measles Cases Trend in", ..2),
+           subtitle = "from 1980 to 2020",
+           x = "Year",
+           y = "Cases")
+  }))
+
+#the example can be:
+print(plots_by_country$plots[[1]])
+```
+
+
+```{r}
+plot3 <- ggplot(measles_data_cleaned, aes(x = Year, y = Cases)) +
+  geom_point() +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  facet_wrap(~Disease, scales = "free_y") +
+  labs(title = "Measles Cases Trend 1980-2020",
+       subtitle = "In the whole world",
+       x = "Year",
+       y = "Cases")
+plot3
+```
+
+# Analysis Result
+Over time, there has been a decline in the overall number of measles cases; however, the resurgence of measles occurs periodically every few years. Additionally, there exist significant disparities among countries with regards to the incidence of measles, highlighting substantial inequalities in the prevalence of this infectious disease across the globe.
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

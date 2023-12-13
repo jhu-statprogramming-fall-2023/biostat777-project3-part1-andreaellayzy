@@ -1,77 +1,124 @@
-# An R Interface to Leaflet Maps
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Leaflet, an interactive map
 
 <!-- badges: start -->
-[![R build status](https://github.com/rstudio/leaflet/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/leaflet/actions)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/leaflet)](https://www.r-pkg.org/pkg/leaflet)
+
+[![R build
+status](https://github.com/rstudio/leaflet/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/leaflet/actions)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/leaflet)](https://www.r-pkg.org/pkg/leaflet)
 [![](https://www.r-pkg.org/badges/version/leaflet)](https://www.r-pkg.org/pkg/leaflet)
-[![RStudio community](https://img.shields.io/badge/community-leaflet-blue?style=social&logo=rstudio&logoColor=75AADB)](https://community.rstudio.com/new-topic?title=&tags=leaflet&body=%0A%0A%0A%20%20--------%0A%20%20%0A%20%20%3Csup%3EReferred%20here%20by%20%60leaflet%60%27s%20GitHub%3C/sup%3E%0A&u=barret)
+[![RStudio
+community](https://img.shields.io/badge/community-leaflet-blue?style=social&logo=rstudio&logoColor=75AADB)](https://community.rstudio.com/new-topic?title=&tags=leaflet&body=%0A%0A%0A%20%20--------%0A%20%20%0A%20%20%3Csup%3EReferred%20here%20by%20%60leaflet%60%27s%20GitHub%3C/sup%3E%0A&u=barret)
+
 <!-- badges: end -->
 
-[Leaflet](https://leafletjs.com) is an open-source JavaScript library for
-interactive maps. This R package makes it easy to create Leaflet maps from R.
+Leaflet is developed by Numa Gremling, Paul Crickard III, Paul Crickard,
+and Mark Lewin. The leaflet package from Github is:
+<https://github.com/rstudio/leaflet/tree/main>
 
-```r
-library(leaflet)
-m = leaflet() %>% addTiles()
-m  # a map with the default OSM tile layer
+The website I created for this package is:
 
-m = m %>% setView(-93.65, 42.0285, zoom = 17)
-m
+My customization of the website:
 
-m %>% addPopups(-93.65, 42.0285, 'Here is the <b>Department of Statistics</b>, ISU')
-```
+1.  change the page theme to minty
+
+2.  change the code theme to arrow-dark
+
+3.  change the base font into Roboto, the heading font into Roboto Slab,
+    code font into JetBrains Mono
+
+4.  change navbar background into dark
+
+5.  change the navbar layout into left: [intro, reference, articles,
+    news]; right: [search, github]
+
+## 
+
+## Author of the website
+
+Ziying Yang, first year ScM Biostatistics student at Johns Hopkins
+University, mainly responsible for the main page development and example
+analysis.
+
+## Purpose of the package
+
+Leaflet is one of the most popular open-source JavaScript libraries for
+interactive maps. It's used by GIS specialists like OpenStreetMap,
+Mapbox, and CartoDB. This R package makes it easy to integrate and
+control Leaflet maps in R.
 
 ## Installation
 
-You can install this package from CRAN, or the development version from GitHub:
+To install this package from CRAN:
 
-```r
-# CRAN version
+``` r
 install.packages('leaflet')
+```
 
-# Or Github version
+We can also install the development version from GitHub:
+
+``` r
 if (!require('devtools')) install.packages('devtools')
 devtools::install_github('rstudio/leaflet')
 ```
 
-## Documentation
+To begin using `leaflet`, we should first import the package using the
+`library` command:
 
-In addition to the usual R package documentation, we also have extensive docs and examples at:
-[https://rstudio.github.io/leaflet/](https://rstudio.github.io/leaflet/)
-
-## Development
-
-`leaflet`'s JavaScript build tools use Node.js, along with [yarn](https://yarnpkg.com/) to manage the JavaScript packages.
-
-Install `yarn` using the [official instructions](https://classic.yarnpkg.com/en/docs/install).
-
-You can test that Node.js and yarn are installed properly by running the following commands:
-
-```bash
-node --version
-yarn --version
+``` r
+library(leaflet)
 ```
 
-To make additions or modifications to the JavaScript `htmlwidgets` binding layer,
-you must have all Node.js dependencies installed. Now you can build/minify/lint/test using `yarn build`, or run in "watch" mode
-by just running `yarn watch`. JS sources go into `javascript/src` and tests go into
-`javascript/tests`.
+## Example Usage
 
-```bash
-# install dependencies
-yarn
-
-# compile
-yarn build
-
-# watch
-yarn watch
+``` r
+m <- leaflet() %>%
+  addTiles() %>% 
+  addMarkers(lng=-76.6122, lat=39.2904, popup="The Interactive Map of Baltimore")
+m  
 ```
 
+We can also add pop-ups
 
-## License
+``` r
+m %>% addPopups(lng=-76.5902, lat=39.2983, "Here is the Bloomberg school of public health</b>, JHU")
+rand_lng <- function(n = 10) rnorm(n, -76.5902, .01)
+rand_lat <- function(n = 10) rnorm(n, 39.2983, .01)
+```
 
-This package is licensed to you under the terms of the [GNU General Public
-License](https://www.gnu.org/licenses/gpl-3.0.html) version 3 or later.
+## Exported Functions
 
-Copyright 2013-2015 RStudio, Inc.
+addAwesomeMarkers() addGraticule() addLayersControl()
+layersControlOptions() removeLayersControl() addLegend() labelFormat()
+addMapPane() addMeasure() addMiniMap() addProviderTiles()
+providerTileOptions() addRasterImage() projectRasterForLeaflet() Add a
+raster image as a layer addRasterLegend() addScaleBar()
+scaleBarOptions() removeScaleBar() addSimpleGraticule() addTerminator()
+atlStorms2005 awesomeIconList() awesomeIcons() breweries91
+colorNumeric() colorBin() colorQuantile() colorFactor()
+createLeafletMap() leafletMap() Legacy functions derivePoints()
+derivePolygons() dispatch() invokeMethod() easyButtonState()
+easyButton() addEasyButton() addEasyButtonBar() evalFormula()
+expandLimits() expandLimitsBbox() filterNULL() gadmCHE getMapData()
+groupOptions() iconList() icons() JS %\>% leaflet() leafletOptions()
+leafletCRS() leafletDependencies leafletProxy() leafletSizingPolicy()
+makeAwesomeIcon() makeIcon() addControl() addTiles() addWMSTiles()
+addPopups() addMarkers() addLabelOnlyMarkers() addCircleMarkers()
+highlightOptions() addCircles() addPolylines() addRectangles()
+addPolygons() addGeoJSON() addTopoJSON() setView() flyTo() fitBounds()
+flyToBounds() setMaxBounds() clearBounds() tileOptions()
+WMSTileOptions() popupOptions() labelOptions() markerOptions()
+markerClusterOptions() pathOptions() leafletOutput() renderLeaflet()
+mapOptions() previewColors() removeControl() clearControls()
+clearGroup() removeImage() clearImages() removeTiles() clearTiles()
+removePopup() clearPopups() removeMarker() clearMarkers()
+removeMarkerCluster() clearMarkerClusters() removeMarkerFromCluster()
+removeShape() clearShapes() removeGeoJSON() clearGeoJSON()
+removeMeasure() removeTopoJSON() clearTopoJSON() showGroup() hideGroup()
+validateCoords()

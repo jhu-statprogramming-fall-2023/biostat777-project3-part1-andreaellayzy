@@ -33,3 +33,5 @@
 ^revdep$
 ^CRAN-SUBMISSION$
 ^_dev$
+^_pkgdown\.yml$
+^pkgdown$
