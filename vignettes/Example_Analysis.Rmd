@@ -23,6 +23,7 @@ library(lubridate)
 library(stringr)
 library(purrr)
 library(ggplot2)
+library(here)
 ```
 
 
@@ -36,8 +37,8 @@ This data is acquired from World Health Organization, which is publicly availabl
 if (!file.exists("data")) {
   dir.create("data")
 }
-measles_data <- read.csv("/Users/ziying/Desktop/Stats_Paradigm/leaflet/vignettes/data/Measle_incidence.csv")
-geo_location <- read.csv("/Users/ziying/Desktop/Stats_Paradigm/leaflet/vignettes/data/geo_location.csv")
+measles_data <- read.csv(here("vignettes", "data", "Measle_incidence.csv"))
+geo_location <- read.csv(here("vignettes", "data", "geo_location.csv"))
 ```
 
 ## Data Wrangling

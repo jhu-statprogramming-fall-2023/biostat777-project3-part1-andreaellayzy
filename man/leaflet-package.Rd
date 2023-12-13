@@ -12,6 +12,7 @@ Useful links:
 \itemize{
   \item \url{https://rstudio.github.io/leaflet/}
   \item \url{https://github.com/rstudio/leaflet}
+  \item \url{https://jhu-statprogramming-fall-2023.github.io/biostat777-project3-part1-andreaellayzy/}
   \item Report bugs at \url{https://github.com/rstudio/leaflet/issues}
 }
 
