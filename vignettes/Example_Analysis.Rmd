@@ -34,8 +34,8 @@ This data is acquired from World Health Organization, which is publicly availabl
 ## Load the data in R
 
 ```{r}
-if (!file.exists("data")) {
-  dir.create("data")
+if (!dir.exists(here("vignettes","data"))) {
+  dir.create(here("vignettes","data"))
 }
 measles_data <- read.csv(here("vignettes", "data", "Measle_incidence.csv"))
 geo_location <- read.csv(here("vignettes", "data", "geo_location.csv"))
