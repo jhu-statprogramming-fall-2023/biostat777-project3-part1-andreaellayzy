@@ -8,7 +8,7 @@
 
 Leaflet is developed by Numa Gremling, Paul Crickard III, Paul Crickard, and Mark Lewin. The leaflet package from Github is: <https://github.com/rstudio/leaflet/tree/main>
 
-The website I created for this package is:
+I am sorry that due to the "interactiveness" of this package and the limitation of pkgdown, github seems to fail to deploy a website here. But there should be an html file in the docs folder to preview.
 
 My customization of the website:
 
