@@ -70,6 +70,7 @@ Suggests:
     tidyr,
     stringr,
     ggplot2,
+    lubridate,
     knitr,
     maps,
     purrr,
