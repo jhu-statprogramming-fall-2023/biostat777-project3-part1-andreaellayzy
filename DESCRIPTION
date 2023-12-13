@@ -67,6 +67,7 @@ Imports:
 Suggests:
     leaflet,
     dplyr,
+    here,
     tidyr,
     stringr,
     ggplot2,
